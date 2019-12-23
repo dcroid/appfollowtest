@@ -1,6 +1,13 @@
 version: '3.7'
 
 services:
+  redis:
+    container_name: test-redis
+    image: redis:4-alpine
+    env_file:
+      - .env
+    volumes:
+      - redisdata:/data
   db:
     image: mysql:latest
     container_name: test-db
@@ -25,3 +32,4 @@ services:
 
 volumes:
   data:
+  redisdata:
