@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  db:
+    image: mysql:latest
+    container_name: test_db
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - mysql:/var/www/webapp
+    env_file:
+      - .env
+    ports:
+      - "3306:3306"
+  web:
+    build: .
+    container_name: test-project
+    command: 'python3 -Wd manage.py runserver 0.0.0.0:8000'
+    volumes:
+      - ./:/app
+    ports:
+      - "8000:8000"
+    env_file: .env
+    links:
+      - db
+
+volumes:
+  mysql:
